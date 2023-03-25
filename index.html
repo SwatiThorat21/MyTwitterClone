@@ -6,11 +6,53 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Twitter</title>
-    <script src="style.css"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
+    <header>
+        <i class="fa-brands fa-twitter twitter_logo"></i>
+        <input type="text" placeholder="# Explore">
+    </header>
+    <section>
+        <div id="myProfile" class="sidebar">
+            <div id="profile_bg"></div>
+            <div class="profileImg"></div>
+            <h3>Swati Thorat</h3>
+            <p>@Swatic019</p>
+            <p>Navi Mumbai, India</p>
+        </div>
 
+        <div class="tweetsContainer">
+            <div id="postATweet">
+                <div class="postTweet">
+                    <div class="profileImgTweet"></div>
+                    <input type="text" placeholder="Whats happening?">
+                </div>    
+                <div class="tweetBtn">
+                    <button class="addTweet">Add a tweet</button>
+                </div>            
+                
+            </div>
+            <div class="tweet">
+                <div class="profileImgTweet"></div>
+                <div class="tweetContent">
+                    <h3>Swati Thorat</h3>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat tempora veritatis quasi
+                        ducimus nobis cumque a ea eum nostrum animi. Exercitationem laudantium nulla saepe provident
+                        illo pariatur, quibusdam illum itaque porro nobis.</p>
+                </div>
+            </div>
+        </div>
+        <div id="trending" class="sidebar">
+
+        </div>
+    </section>
 
 
     <script type="module">
@@ -33,7 +75,7 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
 
-        import { getDtabase, set, get, update, remove, ref, child }
+        import { getDatabase, set, get, update, remove, ref, child }
             from "https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js"
 
         const db = getDatabase();
