@@ -32,20 +32,17 @@
             <div id="postATweet">
                 <div class="postTweet">
                     <div class="profileImgTweet"></div>
-                    <input type="text" placeholder="Whats happening?">
+                    <input type="text" placeholder="Whats happening?" id="postTweetInput">
                 </div>    
                 <div class="tweetBtn">
-                    <button class="addTweet">Add a tweet</button>
+                    <button class="addTweet" id="addTweet">Add a tweet</button>
                 </div>            
                 
             </div>
             <div class="tweet">
                 <div class="profileImgTweet"></div>
                 <div class="tweetContent">
-                    <h3>Swati Thorat</h3>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat tempora veritatis quasi
-                        ducimus nobis cumque a ea eum nostrum animi. Exercitationem laudantium nulla saepe provident
-                        illo pariatur, quibusdam illum itaque porro nobis.</p>
+                    
                 </div>
             </div>
         </div>
@@ -54,34 +51,7 @@
         </div>
     </section>
 
-
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBNpq_CywhebNsEEMg8cxjNfIHRBQw-ygk",
-            authDomain: "mytwitterclone-43c08.firebaseapp.com",
-            databaseURL: "https://mytwitterclone-43c08-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "mytwitterclone-43c08",
-            storageBucket: "mytwitterclone-43c08.appspot.com",
-            messagingSenderId: "178203321423",
-            appId: "1:178203321423:web:9e35de5b8e51458098f63a"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-
-        import { getDatabase, set, get, update, remove, ref, child }
-            from "https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js"
-
-        const db = getDatabase();
-
-    </script>
-    <script src="index.js"></script>
+    <script src="index.js" type="module"></script>
 
 </body>
 

@@ -111,7 +111,11 @@ padding: 0.7rem 1.5rem;
 background-color: #1DA1F2;
 border: none;
 color: white;
-border-radius: 18px;
+border-radius: 25px;
+cursor: pointer;
+font-family: "Lato", sans-serif;
+font-size: 1rem;
+
 }
 .tweetBtn{
     display: flex;
