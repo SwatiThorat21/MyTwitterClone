@@ -32,7 +32,7 @@ const db = getDatabase();
 
 let postTweetInput = document.getElementById("postTweetInput");
 let addTweet = document.getElementById("addTweet");
-let tweetContent = document.querySelector(".tweetContent");
+let tweetsContainer = document.getElementById("tweetsContainer");
 
 function addATweet() {
   set(ref(db, "Tweets/" + postTweetInput.value), {
@@ -49,21 +49,28 @@ function addATweet() {
 }
 
 function postATweet() {
-    const dbref = ref(db);
-    
-    get(child(dbref, "Tweets/" + postTweetInput.value))
+  const dbref = ref(db);
+
+  get(child(dbref, "Tweets/" + postTweetInput.value))
     .then((snapshot) => {
-        if (snapshot.exists()) {
-            tweetContent.innerHTML = `
+      if (snapshot.exists()) {
+        let tweetHTML = `
+        <div class="tweet">
+        <div class="profileImgTweet"></div>
+        <div class="tweetContent">
             <h3>Swati Thorat</h3>
-            <p>${snapshot.val().tweet}</p> `;
-        } else {
-            alert("Please add a tweet");
-        }
+            <p>${snapshot.val().tweet}</p>
+        </div>
+        </div> `;
+        tweetsContainer.insertAdjacentHTML("beforeend", tweetHTML);
+      } else {
+        alert("Please add a tweet");
+      }
     })
     .catch((error) => {
-        alert(error);
+      alert(error);
     });
+  postTweetInput.value = "";
 }
 
 addTweet.addEventListener("click", addATweet);

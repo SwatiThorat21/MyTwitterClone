@@ -5,7 +5,8 @@ body {
   box-sizing: border-box;
   background-color: #2a2b2c;
   color: white;
-  font-family: "Lato", sans-serif;
+  /* font-family: "Lato", sans-serif; */
+  font-family: 'Roboto', sans-serif;
 }
 
 #myProfile,
@@ -24,12 +25,22 @@ input {
   padding: 0.6rem 8rem 0.6rem 0.7rem;
   border-radius: 20px;
   border: none;
-  font-family: "Lato", sans-serif;
+  /* font-family: "Lato", sans-serif; */
+  font-family: 'Roboto', sans-serif;
   margin: 0.5rem;
+  height: 1.5rem;
 }
 input::placeholder {
   color: #bbb8b8;
-  font-family: "Lato", sans-serif;
+  /* font-family: "Lato", sans-serif; */
+  font-family: 'Roboto', sans-serif;
+}
+
+input:focus {
+  border: none;
+  outline: none;
+  background-color: #86868a;
+  outline: 1px solid #1da1f2;
 }
 header {
   margin: 0.7rem 0 0 7rem;
@@ -67,11 +78,12 @@ section {
   font-size: 1.3rem;
   letter-spacing: 0.03cm;
   margin: 0.8rem 0 0.4rem 0;
+  color: #f5f5f5;
 }
 #myProfile p {
   text-align: center;
   margin: 0.7rem;
-  color: #f5f5f5;
+  color: #f5ecf3;
 }
 .tweetsContainer {
   width: 45rem;
@@ -101,10 +113,12 @@ section {
 .tweetContent{
     width: fit-content;
     margin-left: 1rem;
-    color: #f5f5f5;
+    /* color: #f5f5f5; */
+    color: #f5ecf3;
 }
 .postTweet input{
     width: 20rem;
+    height: 1.5rem;
 }
 .addTweet{
 padding: 0.7rem 1.5rem;
@@ -113,7 +127,8 @@ border: none;
 color: white;
 border-radius: 25px;
 cursor: pointer;
-font-family: "Lato", sans-serif;
+/* font-family: "Lato", sans-serif; */
+font-family: 'Roboto', sans-serif;
 font-size: 1rem;
 
 }
@@ -121,4 +136,11 @@ font-size: 1rem;
     display: flex;
     justify-content: flex-end;
     margin-right: 3rem;
+}
+
+.tweetContent h3 {
+  margin-top: 8px;
+  font-weight: 500;
+
+
 }
