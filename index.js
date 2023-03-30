@@ -4,17 +4,16 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebas
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBNpq_CywhebNsEEMg8cxjNfIHRBQw-ygk",
   authDomain: "mytwitterclone-43c08.firebaseapp.com",
-  databaseURL:
-    "https://mytwitterclone-43c08-default-rtdb.asia-southeast1.firebasedatabase.app",
+  databaseURL: "https://mytwitterclone-43c08-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "mytwitterclone-43c08",
   storageBucket: "mytwitterclone-43c08.appspot.com",
   messagingSenderId: "178203321423",
-  appId: "1:178203321423:web:9e35de5b8e51458098f63a",
+  appId: "1:178203321423:web:9e35de5b8e51458098f63a"
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -63,6 +62,7 @@ function renderTweetHTML() {
             <p>${postTweetInput.value}</p>
         </div>
         </div> `;
+  tweetsContainer.insertAdjacentHTML("beforeend", tweetHTML);
   tweetsContainer.insertAdjacentHTML("beforeend", tweetHTML);
   postTweetInput.value = "";
 }
