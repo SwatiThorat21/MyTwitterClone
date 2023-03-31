@@ -7,13 +7,13 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebas
 const firebaseConfig = {
   apiKey: "AIzaSyBNpq_CywhebNsEEMg8cxjNfIHRBQw-ygk",
   authDomain: "mytwitterclone-43c08.firebaseapp.com",
-  databaseURL: "https://mytwitterclone-43c08-default-rtdb.asia-southeast1.firebasedatabase.app",
+  databaseURL:
+    "https://mytwitterclone-43c08-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "mytwitterclone-43c08",
   storageBucket: "mytwitterclone-43c08.appspot.com",
   messagingSenderId: "178203321423",
-  appId: "1:178203321423:web:9e35de5b8e51458098f63a"
+  appId: "1:178203321423:web:9e35de5b8e51458098f63a",
 };
-
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -28,7 +28,15 @@ import {
   child,
   push,
   onChildAdded,
+  orderByValue
 } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js";
+
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithRedirect,
+  getRedirectResult,
+} from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
 
 const db = getDatabase();
 
@@ -37,43 +45,31 @@ let addTweet = document.getElementById("addTweet");
 let tweetsContainer = document.getElementById("tweetsContainer");
 
 function addATweet() {
-  if(!postTweetInput.value) alert("Please add a tweet");
-  let postTweets = ref(db, "tweets");
-  let newTweets = push(postTweets);
-  set(newTweets, {
-    content: postTweetInput.value,
-  })
-    .then(() => {
-      alert("Data added sucessfully!");
+  if (!postTweetInput.value) {
+    alert("Please add a tweet");
+    return false;
+  }else{
+    let postTweets = ref(db, "tweets");
+    let newTweets = push(postTweets);
+    set(newTweets, {
+      content: postTweetInput.value,
     })
-    .catch((error) => {
-      alert(error);
-    });
-
-    renderTweetHTML();
+      .then(() => {
+        alert("Data added sucessfully!");
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  } 
 }
 
-function renderTweetHTML() {
-  let tweetHTML = `
-        <div class="tweet">
-        <div class="profileImgTweet"></div>
-        <div class="tweetContent">
-            <h3>Swati Thorat</h3>
-            <p>${postTweetInput.value}</p>
-        </div>
-        </div> `;
-  tweetsContainer.insertAdjacentHTML("beforeend", tweetHTML);
-  tweetsContainer.insertAdjacentHTML("beforeend", tweetHTML);
-  postTweetInput.value = "";
-}
 
 addTweet.addEventListener("click", addATweet);
 
 function fetchTweets() {
   const db = getDatabase();
-  const tweetsRef = ref(db, "tweets");
+  const tweetsRef = ref(db, "tweets", orderByValue('content'));
   onChildAdded(tweetsRef, (data) => {
-    console.log(data.val().content);
     let tweetHTML = `
     <div class="tweet">
     <div class="profileImgTweet"></div>
@@ -82,7 +78,8 @@ function fetchTweets() {
         <p>${data.val().content}</p>
     </div>
     </div> `;
-    tweetsContainer.insertAdjacentHTML("beforeend", tweetHTML);
+    postTweetInput.value = "";
+    tweetsContainer.insertAdjacentHTML("afterbegin", tweetHTML);
   });
 }
 
