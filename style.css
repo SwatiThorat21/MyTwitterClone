@@ -162,15 +162,15 @@ font-size: 1rem;
   padding: 10px 55px;
   border-radius: 35px;
   font-family: 'Roboto', sans-serif;
-  border: 1px solid #06629b;
-  background-color: #9a9a9c;
+  border: 1px solid black;
+  background-color: #49494e;
   margin-top: 1rem;
   cursor: pointer;
   font-size: 1rem;
   color: #f5ecf3;
-  box-shadow: 0 2px 2px rgb(93, 92, 92);
+  box-shadow: 0 2px 2px black;
 }
 
 #logInBtnContainer button:hover {
-  background-color: #8e8e8e;
+  background-color: #2e2e31;
 }
