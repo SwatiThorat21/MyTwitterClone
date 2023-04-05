@@ -37,7 +37,8 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithRedirect,
-  getRedirectResult
+  getRedirectResult,
+  onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
 
 const db = getDatabase();
@@ -71,16 +72,40 @@ function fetchTweets() {
   const db = getDatabase();
   const tweetsRef = ref(db, "tweets", orderByValue("content"));
   onChildAdded(tweetsRef, (data) => {
-    let tweetHTML = `
-    <div class="tweet">
-    <div class="profileImgTweet"></div>
-    <div class="tweetContent">
-        <h3>Swati Thorat</h3>
+    onAuthStateChanged(auth, (user) => {
+      let currentDate = new Date();
+      let date = currentDate.getDate();
+      let month = currentDate.getMonth();
+      let allMonths = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+      let monthName = allMonths[month];
+      let hours = (currentDate.getHours() % 12) || 12 
+      let amPm =  currentDate.getHours()<12 ? "AM":"PM";
+
+      let tweetHTML = `
+        <div class="tweet">
+        <img src="${user.photoURL}" class="profileImgTweet"></img>
+        <div class="tweetContent">
+        <h3>${user.displayName}</h3>
         <p>${data.val().content}</p>
-    </div>
-    </div> `;
-    postTweetInput.value = "";
-    tweetsContainer.insertAdjacentHTML("afterbegin", tweetHTML);
+        </div>
+        <p class="currentDateTime">${monthName} ${date} :  ${hours} ${amPm}</p>
+        </div> `;
+      postTweetInput.value = "";
+      tweetsContainer.insertAdjacentHTML("afterbegin", tweetHTML);
+    });
   });
 }
 
@@ -90,25 +115,43 @@ loginBtn.addEventListener("click", (e) => {
   signInWithRedirect(auth, provider);
   getRedirectResult(auth)
     .then((result) => {
-      
-            // This gives you a Google Access Token. You can use it to access Google APIs.
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
 
-      // The signed-in user info.
       const user = result.user;
-      console.log(JSON.stringify(user));
-      // IdP data available using getAdditionalUserInfo(result)
-      // ...
+
+      //displayName, email, photoURL
     })
     .catch((error) => {
-      // Handle Errors here.
       const errorCode = error.code;
       const errorMessage = error.message;
-      // The email of the user's account used.
       const email = error.customData.email;
-      // The AuthCredential type that was used.
       const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
     });
 });
+
+let myprofileDetails = document.getElementById("myprofileDetails");
+let logInBtnContainer = document.getElementById("logInBtnContainer");
+
+function updateUserDetails() {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      //  const uid = user.uid;
+      myprofileDetails.style.display = "block";
+      logInBtnContainer.style.display = "none";
+      myprofileDetails.innerHTML = `
+      <div id="profile_bg"></div>
+      <div id="profileImg">
+      <img src="${user.photoURL}" class="profileImg"></img>
+      </div>
+      <h3>${user.displayName}</h3>
+      <p>${user.email}</p> `;
+    } else {
+      myprofileDetails.style.display = "none";
+      logInBtnContainer.style.display = "block";
+      tweetsContainer.style.display = "none";
+    }
+  });
+}
+
+updateUserDetails();
