@@ -47,16 +47,53 @@ let postTweetInput = document.getElementById("postTweetInput");
 let addTweet = document.getElementById("addTweet");
 let tweetsContainer = document.getElementById("tweetsContainer");
 let loginBtn = document.getElementById("loginBtn");
+let lodingTweets = document.querySelector(".lodingTweets");
 
 function addATweet() {
   if (!postTweetInput.value) {
     alert("Please add a tweet");
     return false;
   } else {
+    let currentDate = new Date();
+    let date = currentDate.getDate();
+    let month = currentDate.getMonth();
+    let allMonths = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    function pad(n){
+      return n<10 ? '0'+n : n;
+    }
+    const nth = function(d) {
+      if (d > 3 && d < 21) return 'th';
+      switch (d % 10) {
+        case 1:  return "st";
+        case 2:  return "nd";
+        case 3:  return "rd";
+        default: return "th";
+      }
+    }
+    let monthName = allMonths[month];
+    let hours = currentDate.getHours() % 12 || 12;
+    let minutes = currentDate.getMinutes();
+    let amPm = currentDate.getHours() < 12 ? "AM" : "PM";
+    let tweetDate =  date + nth(date) + " " + monthName + ", " + pad(hours) + ":" + pad(minutes) + amPm;
+
     let postTweets = ref(db, "tweets");
     let newTweets = push(postTweets);
     set(newTweets, {
       content: postTweetInput.value,
+      date: tweetDate,
     })
       .then(() => {
         alert("Data added sucessfully!");
@@ -73,27 +110,7 @@ function fetchTweets() {
   const tweetsRef = ref(db, "tweets", orderByValue("content"));
   onChildAdded(tweetsRef, (data) => {
     onAuthStateChanged(auth, (user) => {
-      let currentDate = new Date();
-      let date = currentDate.getDate();
-      let month = currentDate.getMonth();
-      let allMonths = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
-      let monthName = allMonths[month];
-      let hours = (currentDate.getHours() % 12) || 12 
-      let amPm =  currentDate.getHours()<12 ? "AM":"PM";
-
+      lodingTweets.style.display = "none";
       let tweetHTML = `
         <div class="tweet">
         <img src="${user.photoURL}" class="profileImgTweet"></img>
@@ -101,7 +118,7 @@ function fetchTweets() {
         <h3>${user.displayName}</h3>
         <p>${data.val().content}</p>
         </div>
-        <p class="currentDateTime">${monthName} ${date} :  ${hours} ${amPm}</p>
+        <p class="currentDateTime">${data.val().date}</p>
         </div> `;
       postTweetInput.value = "";
       tweetsContainer.insertAdjacentHTML("afterbegin", tweetHTML);
@@ -140,15 +157,15 @@ function updateUserDetails() {
       myprofileDetails.style.display = "block";
       logInBtnContainer.style.display = "none";
       myprofileDetails.innerHTML = `
-      <div id="profile_bg"></div>
-      <div id="profileImg">
+      <div class="profile_bg"></div>
+      <div class="profileImgContain">
       <img src="${user.photoURL}" class="profileImg"></img>
       </div>
       <h3>${user.displayName}</h3>
       <p>${user.email}</p> `;
     } else {
       myprofileDetails.style.display = "none";
-      logInBtnContainer.style.display = "block";
+      logInBtnContainer.style.display = "flex";
       tweetsContainer.style.display = "none";
     }
   });

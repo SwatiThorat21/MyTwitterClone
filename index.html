@@ -24,14 +24,15 @@
         <input type="text" placeholder="# Explore">
     </header>
     <section>
-        <div id="myProfileLoginContainer" class="sidebar">
+        <div id="myProfileLoginContainer" class="myProfileLoginContainer">
             <div id="myprofileDetails">
-               
+
             </div>
-           
-            <div id="logInBtnContainer" class="sidebar">
+
+            <div class="logInBtnContainer" id="logInBtnContainer">
                 <h3>Join Twitter Today.</h3>
-                <button id="loginBtn"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="googleLogo">
+                <button id="loginBtn"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
+                        class="googleLogo">
                         <g>
                             <path fill="#EA4335"
                                 d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
@@ -54,10 +55,10 @@
         </div>
 
         <div class="addTweetsContainer">
-            <div id="postATweet">
+            <div class="postATweet">
                 <div class="postTweet">
                     <div class="profileImgTweet"></div>
-                    <input type="text" placeholder="Whats happening?" id="postTweetInput">
+                    <textarea type="text" placeholder="Whats happening?" id="postTweetInput"></textarea>
                 </div>
                 <div class="tweetBtn">
                     <button class="addTweet" id="addTweet">Add a tweet</button>
@@ -65,11 +66,11 @@
 
             </div>
             <div id="tweetsContainer">
-
+                <div class="lodingTweets">Loading tweets......</div>
             </div>
         </div>
 
-       
+
     </section>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>

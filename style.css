@@ -4,15 +4,17 @@ body {
   padding: 0;
   box-sizing: border-box;
   background-color: #2a2b2c;
+  /* background-color: #242525; */
+
   color: white;
   /* font-family: "Lato", sans-serif; */
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
-#myProfileLoginContainer,
-#postATweet,
+.myProfileLoginContainer,
+.postATweet,
 .tweet,
-#logInBtnContainer {
+.logInBtnContainer {
   background-color: #9a9a9c;
 }
 .twitter_logo {
@@ -26,16 +28,15 @@ input {
   border-radius: 20px;
   border: none;
   /* font-family: "Lato", sans-serif; */
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   margin: 0.5rem;
   height: 1.5rem;
 }
 input::placeholder {
   color: #bbb8b8;
   /* font-family: "Lato", sans-serif; */
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
-
 input:focus {
   border: none;
   outline: none;
@@ -54,25 +55,28 @@ section {
   margin: 2rem;
   justify-content: center;
 }
-#profile_bg {
+.profile_bg {
   background-color: #d9d9d9;
   width: 22rem;
   height: 6rem;
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
 }
-#profileImg{
+.profileImgContain {
   display: flex;
 }
-#myProfileLoginContainer {
+.myProfileLoginContainer {
   width: 22rem;
   height: 20rem;
   border-radius: 7px;
 }
-#logInBtnContainer {
-  width: 22rem;
-  height: 15rem;
+.logInBtnContainer {
   border-radius: 7px;
+  display: none;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 4rem;
+  color: #f5ecf3;
 }
 .profileImg {
   background-color: white;
@@ -82,14 +86,14 @@ section {
   border-radius: 50%;
   margin-top: -2rem;
 }
-#myProfileLoginContainer h3 {
+.myProfileLoginContainer h3 {
   text-align: center;
   font-size: 1.3rem;
   letter-spacing: 0.03cm;
   margin: 0.8rem 0 0.4rem 0;
   color: #f5f5f5;
 }
-#myProfileLoginContainer p {
+.myProfileLoginContainer p {
   text-align: center;
   margin: 0.7rem;
   color: #f5ecf3;
@@ -109,7 +113,7 @@ section {
   align-items: center;
   margin-bottom: 1.5rem;
 }
-#postATweet {
+.postATweet {
   padding: 1rem 2rem;
   border-radius: 7px;
 }
@@ -119,63 +123,54 @@ section {
   display: flex;
   padding: 1rem 2rem;
   align-items: flex-start;
+  flex-basis: auto 10rem auto;
 }
-.tweetContent{
-    width: fit-content;
-    margin-left: 1rem;
-    /* color: #f5f5f5; */
-    color: #f5ecf3;
+.tweetContent {
+  width: 30rem;
+  margin-left: 1rem;
+  /* color: #f5f5f5; */
+  color: #f5ecf3;
 }
-.currentDateTime{
+.currentDateTime {
   margin-left: auto;
+  font-size: 13px;
+  font-family: "Roboto", sans-serif;
 }
-.postTweet input{
-    width: 20rem;
-    height: 1.5rem;
+.postTweet input {
+  width: 20rem;
+  height: 1.5rem;
 }
-.addTweet{
-padding: 0.7rem 1.5rem;
-background-color: #1DA1F2;
-border: none;
-color: white;
-border-radius: 25px;
-cursor: pointer;
-/* font-family: "Lato", sans-serif; */
-font-family: 'Roboto', sans-serif;
-font-size: 1rem;
-
+.addTweet {
+  padding: 0.7rem 1.5rem;
+  background-color: #1da1f2;
+  border: none;
+  color: white;
+  border-radius: 25px;
+  cursor: pointer;
+  /* font-family: "Lato", sans-serif; */
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
 }
-.tweetBtn{
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 3rem;
+.tweetBtn {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 3rem;
 }
-
 .tweetContent h3 {
   margin-top: 8px;
   font-weight: 500;
 }
-
-.googleLogo{
+.googleLogo {
   display: block;
   width: 20px;
 }
-#logInBtnContainer{
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  padding-top: 4rem;
-  color: #f5ecf3;
-}
-
-#logInBtnContainer button {
+.logInBtnContainer button {
   display: flex;
   gap: 12px;
   align-items: center;
   padding: 10px 55px;
   border-radius: 35px;
-  font-family: 'Roboto', sans-serif;
-  /* border: 1px solid black; */
+  font-family: "Roboto", sans-serif;
   background-color: rgb(243, 243, 243);
   margin: 1rem auto;
   cursor: pointer;
@@ -185,7 +180,18 @@ font-size: 1rem;
   border: none;
 }
 
-#logInBtnContainer button:hover {
+.logInBtnContainer button:hover {
   background-color: rgb(230, 230, 230);
   box-shadow: 0 1px 1px rgb(48, 47, 47);
+}
+.lodingTweets {
+  font-family: "Roboto", sans-serif;
+  display: block;
+  margin-top: 1rem;
+  height: 2rem;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.3rem;
+  background-color: #9a9a9c;
+  border-radius: 2px;
 }
