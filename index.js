@@ -48,10 +48,12 @@ let addTweet = document.getElementById("addTweet");
 let tweetsContainer = document.getElementById("tweetsContainer");
 let loginBtn = document.getElementById("loginBtn");
 let lodingTweets = document.querySelector(".lodingTweets");
+let profileImg = document.getElementById("profileImg");
 
-function addATweet() {
+function onAddATweetBtn() {
   if (!postTweetInput.value) {
-    alert("Please add a tweet");
+    postTweetInput.classList.add("error_msgInput");
+    document.querySelector(".error_msg").style.display = "block";
     return false;
   } else {
     let currentDate = new Date();
@@ -71,23 +73,36 @@ function addATweet() {
       "November",
       "December",
     ];
-    function pad(n){
-      return n<10 ? '0'+n : n;
+    function pad(n) {
+      return n < 10 ? "0" + n : n;
     }
-    const nth = function(d) {
-      if (d > 3 && d < 21) return 'th';
+    const nth = function (d) {
+      if (d > 3 && d < 21) return "th";
       switch (d % 10) {
-        case 1:  return "st";
-        case 2:  return "nd";
-        case 3:  return "rd";
-        default: return "th";
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
       }
-    }
+    };
     let monthName = allMonths[month];
     let hours = currentDate.getHours() % 12 || 12;
     let minutes = currentDate.getMinutes();
     let amPm = currentDate.getHours() < 12 ? "AM" : "PM";
-    let tweetDate =  date + nth(date) + " " + monthName + ", " + pad(hours) + ":" + pad(minutes) + amPm;
+    let tweetDate =
+      date +
+      nth(date) +
+      " " +
+      monthName +
+      ", " +
+      pad(hours) +
+      ":" +
+      pad(minutes) +
+      amPm;
 
     let postTweets = ref(db, "tweets");
     let newTweets = push(postTweets);
@@ -103,14 +118,21 @@ function addATweet() {
       });
   }
 }
-addTweet.addEventListener("click", addATweet);
+addTweet.addEventListener("click", onAddATweetBtn);
 
 function fetchTweets() {
   const db = getDatabase();
   const tweetsRef = ref(db, "tweets", orderByValue("content"));
   onChildAdded(tweetsRef, (data) => {
     onAuthStateChanged(auth, (user) => {
+
+      postTweetInput.addEventListener("focus", () => {
+        document.querySelector(".error_msg").style.display = "none";
+      });
+      postTweetInput.classList.remove("error_msgInput");
+
       lodingTweets.style.display = "none";
+      
       let tweetHTML = `
         <div class="tweet">
         <img src="${user.photoURL}" class="profileImgTweet"></img>
@@ -122,6 +144,9 @@ function fetchTweets() {
         </div> `;
       postTweetInput.value = "";
       tweetsContainer.insertAdjacentHTML("afterbegin", tweetHTML);
+
+      let profileImgHTML = `<img src="${user.photoURL}" alt="" class="profileImgTweet"> `;
+      profileImg.innerHTML = profileImgHTML;
     });
   });
 }

@@ -22,7 +22,8 @@ body {
   font-size: 30px;
   margin: 0.5rem;
 }
-input {
+input,
+textarea {
   background-color: #707074;
   padding: 0.6rem 8rem 0.6rem 0.7rem;
   border-radius: 20px;
@@ -31,13 +32,16 @@ input {
   font-family: "Roboto", sans-serif;
   margin: 0.5rem;
   height: 1.5rem;
+  resize: none;
 }
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: #bbb8b8;
   /* font-family: "Lato", sans-serif; */
   font-family: "Roboto", sans-serif;
 }
-input:focus {
+input:focus,
+textarea:focus {
   border: none;
   outline: none;
   background-color: #86868a;
@@ -130,13 +134,16 @@ section {
   margin-left: 1rem;
   /* color: #f5f5f5; */
   color: #f5ecf3;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  line-height: 22px;
 }
 .currentDateTime {
   margin-left: auto;
   font-size: 13px;
   font-family: "Roboto", sans-serif;
 }
-.postTweet input {
+.postTweet textarea {
   width: 20rem;
   height: 1.5rem;
 }
@@ -151,6 +158,19 @@ section {
   font-family: "Roboto", sans-serif;
   font-size: 1rem;
 }
+
+.error_msgInput {
+  border: 1px solid #ed2424;
+
+}
+
+.error_msg {
+  color: #ed2424;
+  margin-left: 20px;
+  font-family: "Roboto", sans-serif;
+  display: none;
+}
+
 .tweetBtn {
   display: flex;
   justify-content: flex-end;

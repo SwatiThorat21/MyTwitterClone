@@ -56,9 +56,13 @@
 
         <div class="addTweetsContainer">
             <div class="postATweet">
-                <div class="postTweet">
-                    <div class="profileImgTweet"></div>
-                    <textarea type="text" placeholder="Whats happening?" id="postTweetInput"></textarea>
+                <div class="postTweet" id="postATweet">
+                    <div id="profileImg">
+                    </div>
+                    <div>
+                        <textarea maxlength="250" placeholder="Whats happening?" id="postTweetInput"></textarea>
+                        <div class="error_msg">Please add a tweet</div>
+                    </div>
                 </div>
                 <div class="tweetBtn">
                     <button class="addTweet" id="addTweet">Add a tweet</button>
@@ -69,6 +73,7 @@
                 <div class="lodingTweets">Loading tweets......</div>
             </div>
         </div>
+
 
 
     </section>
