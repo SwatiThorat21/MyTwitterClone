@@ -39,6 +39,7 @@ import {
   signInWithRedirect,
   getRedirectResult,
   onAuthStateChanged,
+  signOut,
 } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
 
 const db = getDatabase();
@@ -49,6 +50,8 @@ let tweetsContainer = document.getElementById("tweetsContainer");
 let loginBtn = document.getElementById("loginBtn");
 let lodingTweets = document.querySelector(".lodingTweets");
 let profileImg = document.getElementById("profileImg");
+let addTweetsContainer = document.querySelector(".addTweetsContainer");
+let header = document.querySelector("header");
 
 function onAddATweetBtn() {
   if (!postTweetInput.value) {
@@ -122,18 +125,20 @@ addTweet.addEventListener("click", onAddATweetBtn);
 
 function fetchTweets() {
   const db = getDatabase();
-  const tweetsRef = ref(db, "tweets", orderByValue("content"));
+  const tweetsRef = ref(db, "tweets");
   onChildAdded(tweetsRef, (data) => {
     onAuthStateChanged(auth, (user) => {
+      if (user) {
+        postTweetInput.addEventListener("focus", () => {
+          document.querySelector(".error_msg").style.display = "none";
+        });
+        postTweetInput.classList.remove("error_msgInput");
 
-      postTweetInput.addEventListener("focus", () => {
-        document.querySelector(".error_msg").style.display = "none";
-      });
-      postTweetInput.classList.remove("error_msgInput");
+        lodingTweets.style.display = "none";
 
-      lodingTweets.style.display = "none";
-      
-      let tweetHTML = `
+        // console.log(data.key);
+
+        let tweetHTML = `
         <div class="tweet">
         <img src="${user.photoURL}" class="profileImgTweet"></img>
         <div class="tweetContent">
@@ -142,11 +147,15 @@ function fetchTweets() {
         </div>
         <p class="currentDateTime">${data.val().date}</p>
         </div> `;
-      postTweetInput.value = "";
-      tweetsContainer.insertAdjacentHTML("afterbegin", tweetHTML);
+        postTweetInput.value = "";
+        tweetsContainer.insertAdjacentHTML("afterbegin", tweetHTML);
 
-      let profileImgHTML = `<img src="${user.photoURL}" alt="" class="profileImgTweet"> `;
-      profileImg.innerHTML = profileImgHTML;
+        let profileImgHTML = `<img src="${user.photoURL}" alt="" class="profileImgTweet"> `;
+        profileImg.innerHTML = profileImgHTML;
+      } else {
+        addTweetsContainer.style.display = "none";
+        header.style.display = "none";
+      }
     });
   });
 }
@@ -161,8 +170,6 @@ loginBtn.addEventListener("click", (e) => {
       const token = credential.accessToken;
 
       const user = result.user;
-
-      //displayName, email, photoURL
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -173,13 +180,14 @@ loginBtn.addEventListener("click", (e) => {
 });
 
 let myprofileDetails = document.getElementById("myprofileDetails");
+let myProfileContainer = document.getElementById("myProfileContainer");
 let logInBtnContainer = document.getElementById("logInBtnContainer");
 
 function updateUserDetails() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       //  const uid = user.uid;
-      myprofileDetails.style.display = "block";
+      myProfileContainer.style.display = "block";
       logInBtnContainer.style.display = "none";
       myprofileDetails.innerHTML = `
       <div class="profile_bg"></div>
@@ -189,7 +197,7 @@ function updateUserDetails() {
       <h3>${user.displayName}</h3>
       <p>${user.email}</p> `;
     } else {
-      myprofileDetails.style.display = "none";
+      myProfileContainer.style.display = "none";
       logInBtnContainer.style.display = "flex";
       tweetsContainer.style.display = "none";
     }
@@ -197,3 +205,14 @@ function updateUserDetails() {
 }
 
 updateUserDetails();
+
+let logoutButton = document.getElementById("logoutButton");
+
+logoutButton.addEventListener("click", function () {
+  console.log("clicked");
+  signOut(auth)
+    .then(() => {})
+    .catch((error) => {
+      alert("An error happened.");
+    });
+});
