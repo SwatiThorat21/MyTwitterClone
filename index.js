@@ -168,7 +168,6 @@ loginBtn.addEventListener("click", (e) => {
     .then((result) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
-
       const user = result.user;
     })
     .catch((error) => {
@@ -182,14 +181,15 @@ loginBtn.addEventListener("click", (e) => {
 let myprofileDetails = document.getElementById("myprofileDetails");
 let myProfileContainer = document.getElementById("myProfileContainer");
 let logInBtnContainer = document.getElementById("logInBtnContainer");
-let container = document.querySelector('.container');
+let container = document.getElementById("container");
 
 function updateUserDetails() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
-       const uid = user.uid;
-       console.log(uid);
-      container.classList.add('containerBg');
+      const uid = user.uid;
+      console.log(uid);
+      container.classList.add("containerBg");
+      container.classList.remove("containerWithBgImage");
       myProfileContainer.style.display = "block";
       logInBtnContainer.style.display = "none";
       myprofileDetails.innerHTML = `
@@ -203,7 +203,8 @@ function updateUserDetails() {
       myProfileContainer.style.display = "none";
       logInBtnContainer.style.display = "flex";
       tweetsContainer.style.display = "none";
-      container.classList.add('container');
+      container.classList.add("containerWithBgImage");
+      container.classList.remove("containerBg");
     }
   });
 }

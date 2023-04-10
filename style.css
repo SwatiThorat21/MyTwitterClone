@@ -10,7 +10,7 @@ body {
   background-color: #f0f3f6;
  
 }
-.container{
+.containerWithBgImage{
   background-image: url("images/bgImage.jpg");
   /* Full height */
   height: 100%;
@@ -111,6 +111,7 @@ section {
   height: 20rem;
   background-color: #f0f0f0;
   color: #252829;
+display: none;
 }
 .profileImg {
   background-color: white;
@@ -161,7 +162,7 @@ section {
   flex-basis: auto 10rem auto;
 }
 .tweetContent {
-  width: 30rem;
+  width: 29rem;
   margin-left: 1rem;
   /* color: #f5f5f5; */
   color: #252829;
@@ -255,7 +256,7 @@ section {
   padding: 1rem;
   text-align: center;
   font-size: 1.3rem;
-  background-color: #9a9a9c;
+  background-color: #dcdcdd;
   border-radius: 2px;
 }
 .logoutBtn {
