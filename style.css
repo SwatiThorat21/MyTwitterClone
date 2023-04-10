@@ -7,6 +7,7 @@ body {
   /* font-family: "Lato", sans-serif; */
   font-family: "Roboto", sans-serif;
   height: 100%;
+  background-color: #f0f3f6;
  
 }
 .container{
@@ -27,14 +28,17 @@ body {
 .postATweet,
 .tweet,
 .logInBtnContainer {
-  background-color: white;
-  filter: drop-shadow(0 0 0.3rem #91cbef);
+  background-color: #f2f6f8;
+  filter: drop-shadow(0 0 0.1rem #91cbef);
+}
+.postATweet, .myProfileContainer{
+  filter: drop-shadow(0 0 0.2rem #91cbef);
 }
 .twitter_logo {
   color: #1da1f2;
   font-size: 30px;
   margin: 0.5rem;
-  filter: drop-shadow(0 0 0.3rem #91cbef);
+  filter: drop-shadow(0 0 0.1rem #91cbef);
 }
 header input {
   filter: drop-shadow(0 0 0.15rem #91cbef);

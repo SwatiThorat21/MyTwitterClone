@@ -187,7 +187,8 @@ let container = document.querySelector('.container');
 function updateUserDetails() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      //  const uid = user.uid;
+       const uid = user.uid;
+       console.log(uid);
       container.classList.add('containerBg');
       myProfileContainer.style.display = "block";
       logInBtnContainer.style.display = "none";
