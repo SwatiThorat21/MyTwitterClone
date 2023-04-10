@@ -182,11 +182,13 @@ loginBtn.addEventListener("click", (e) => {
 let myprofileDetails = document.getElementById("myprofileDetails");
 let myProfileContainer = document.getElementById("myProfileContainer");
 let logInBtnContainer = document.getElementById("logInBtnContainer");
+let container = document.querySelector('.container');
 
 function updateUserDetails() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       //  const uid = user.uid;
+      container.classList.add('containerBg');
       myProfileContainer.style.display = "block";
       logInBtnContainer.style.display = "none";
       myprofileDetails.innerHTML = `
@@ -200,6 +202,7 @@ function updateUserDetails() {
       myProfileContainer.style.display = "none";
       logInBtnContainer.style.display = "flex";
       tweetsContainer.style.display = "none";
+      container.classList.add('container');
     }
   });
 }
