@@ -159,8 +159,6 @@ function fetchTweets() {
   });
 }
 
-fetchTweets();
-
 loginBtn.addEventListener("click", (e) => {
   signInWithRedirect(auth, provider);
   getRedirectResult(auth)
@@ -185,6 +183,7 @@ let container = document.getElementById("container");
 function updateUserDetails() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
+      fetchTweets();
       container.classList.add("containerBg");
       container.classList.remove("containerWithBgImage");
       myProfileContainer.style.display = "block";
