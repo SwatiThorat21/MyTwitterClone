@@ -77,8 +77,9 @@ textarea:focus {
 }
 header {
   margin: 0.7rem 0 0 16rem;
-  display: flex;
+  display: none;
   align-items: center;
+  display: none;
 }
 section {
   display: flex;
@@ -142,6 +143,7 @@ section {
 .addTweetsContainer {
   width: 45rem;
   margin: 2rem;
+  display: none;
 }
 .profileImgTweet {
   background-color: white;

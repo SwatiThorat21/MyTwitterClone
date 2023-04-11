@@ -116,7 +116,7 @@ function onAddATweetBtn() {
       userId: user.uid,
       userName: user.displayName,
       userPhotoURL: user.photoURL,
-      userEmail: user.email
+      userEmail: user.email,
     })
       .then(() => {
         alert("Data added sucessfully!");
@@ -132,37 +132,30 @@ function fetchTweets() {
   const db = getDatabase();
   const tweetsRef = ref(db, "tweets");
   onChildAdded(tweetsRef, (data) => {
-    onAuthStateChanged(auth, (user) => {
-      if (user.uid) {
-        // console.log(user.uid);
-        postTweetInput.addEventListener("focus", () => {
-          document.querySelector(".error_msg").style.display = "none";
-        });
-        postTweetInput.classList.remove("error_msgInput");
+    postTweetInput.addEventListener("focus", () => {
+      document.querySelector(".error_msg").style.display = "none";
+    });
+    postTweetInput.classList.remove("error_msgInput");
+    lodingTweets.style.display = "none";
+    addTweetsContainer.style.display = "block";
+    header.style.display = "flex";
 
-        lodingTweets.style.display = "none";
-
-        // console.log(data.key);
-
-        let tweetHTML = `
+    let tweetHTML = `
         <div class="tweet">
-        <img src="${user.photoURL}" class="profileImgTweet"></img>
+        <img src="${data.val().userPhotoURL}" class="profileImgTweet"></img>
         <div class="tweetContent">
-        <h3>${user.displayName}</h3>
+        <h3>${data.val().userName}</h3>
         <p>${data.val().content}</p>
         </div>
         <p class="currentDateTime">${data.val().date}</p>
         </div> `;
-        postTweetInput.value = "";
-        tweetsContainer.insertAdjacentHTML("afterbegin", tweetHTML);
+    postTweetInput.value = "";
+    tweetsContainer.insertAdjacentHTML("afterbegin", tweetHTML);
 
-        let profileImgHTML = `<img src="${user.photoURL}" alt="" class="profileImgTweet"> `;
-        profileImg.innerHTML = profileImgHTML;
-      } else {
-        addTweetsContainer.style.display = "none";
-        header.style.display = "none";
-      }
-    });
+    let profileImgHTML = `<img src="${
+      data.val().userPhotoURL
+    }" alt="" class="profileImgTweet"> `;
+    profileImg.innerHTML = profileImgHTML;
   });
 }
 
@@ -192,8 +185,6 @@ let container = document.getElementById("container");
 function updateUserDetails() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      const uid = user.uid;
-      // console.log(uid);
       container.classList.add("containerBg");
       container.classList.remove("containerWithBgImage");
       myProfileContainer.style.display = "block";
@@ -222,7 +213,10 @@ let logoutButton = document.getElementById("logoutButton");
 logoutButton.addEventListener("click", function () {
   console.log("clicked");
   signOut(auth)
-    .then(() => {})
+    .then(() => {
+      addTweetsContainer.style.display = "none";
+      header.style.display = "none";
+    })
     .catch((error) => {
       alert("An error happened.");
     });
