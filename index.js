@@ -137,8 +137,6 @@ function fetchTweets() {
     });
     postTweetInput.classList.remove("error_msgInput");
     lodingTweets.style.display = "none";
-    addTweetsContainer.style.display = "block";
-    header.style.display = "flex";
 
     let tweetHTML = `
         <div class="tweet">
@@ -151,11 +149,6 @@ function fetchTweets() {
         </div> `;
     postTweetInput.value = "";
     tweetsContainer.insertAdjacentHTML("afterbegin", tweetHTML);
-
-    let profileImgHTML = `<img src="${
-      data.val().userPhotoURL
-    }" alt="" class="profileImgTweet"> `;
-    profileImg.innerHTML = profileImgHTML;
   });
 }
 
@@ -183,6 +176,8 @@ let container = document.getElementById("container");
 function updateUserDetails() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
+      addTweetsContainer.style.display = "block";
+      header.style.display = "flex";
       fetchTweets();
       container.classList.add("containerBg");
       container.classList.remove("containerWithBgImage");
@@ -195,6 +190,10 @@ function updateUserDetails() {
       </div>
       <h3>${user.displayName}</h3>
       <p>${user.email}</p> `;
+
+      let profileImgHTML = `<img src="${user.photoURL}" alt="" class="profileImgTweet"> `;
+      profileImg.innerHTML = profileImgHTML;
+
     } else {
       myProfileContainer.style.display = "none";
       logInBtnContainer.style.display = "flex";
