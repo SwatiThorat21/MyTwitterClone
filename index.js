@@ -19,6 +19,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider(app);
+const user = auth.currentUser;
 
 import {
   getDatabase,
@@ -106,12 +107,16 @@ function onAddATweetBtn() {
       ":" +
       pad(minutes) +
       amPm;
-
+    const user = auth.currentUser;
     let postTweets = ref(db, "tweets");
     let newTweets = push(postTweets);
     set(newTweets, {
       content: postTweetInput.value,
       date: tweetDate,
+      userId: user.uid,
+      userName: user.displayName,
+      userPhotoURL: user.photoURL,
+      userEmail: user.email
     })
       .then(() => {
         alert("Data added sucessfully!");
@@ -128,7 +133,8 @@ function fetchTweets() {
   const tweetsRef = ref(db, "tweets");
   onChildAdded(tweetsRef, (data) => {
     onAuthStateChanged(auth, (user) => {
-      if (user) {
+      if (user.uid) {
+        // console.log(user.uid);
         postTweetInput.addEventListener("focus", () => {
           document.querySelector(".error_msg").style.display = "none";
         });
@@ -187,7 +193,7 @@ function updateUserDetails() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       const uid = user.uid;
-      console.log(uid);
+      // console.log(uid);
       container.classList.add("containerBg");
       container.classList.remove("containerWithBgImage");
       myProfileContainer.style.display = "block";

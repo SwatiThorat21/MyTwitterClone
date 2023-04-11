@@ -8,9 +8,8 @@ body {
   font-family: "Roboto", sans-serif;
   height: 100%;
   background-color: #f0f3f6;
- 
 }
-.containerWithBgImage{
+.containerWithBgImage {
   background-image: url("images/bgImage.jpg");
   /* Full height */
   height: 100%;
@@ -20,8 +19,8 @@ body {
   background-size: cover;
   background-attachment: fixed;
 }
-.containerBg{
-  background-image:none;
+.containerBg {
+  background-image: none;
 }
 
 .myProfileContainer,
@@ -31,7 +30,8 @@ body {
   background-color: #f2f6f8;
   filter: drop-shadow(0 0 0.1rem #91cbef);
 }
-.postATweet, .myProfileContainer{
+.postATweet,
+.myProfileContainer {
   filter: drop-shadow(0 0 0.2rem #91cbef);
 }
 .twitter_logo {
@@ -46,7 +46,7 @@ header input {
 input,
 textarea {
   background-color: #dcdcdd;
-  padding: 0.6rem 8rem 0.6rem 1rem;
+  padding: 0.8rem 8rem 0.4rem 1rem;
   border-radius: 20px;
   border: none;
   /* font-family: "Lato", sans-serif; */
@@ -54,6 +54,11 @@ textarea {
   margin: 0.5rem;
   height: 1.5rem;
   resize: none;
+}
+
+textarea {
+  font-size: 15px;
+  letter-spacing: 0.1mm;
 }
 input::placeholder,
 textarea::placeholder {
@@ -97,6 +102,7 @@ section {
   height: 22rem;
   border-radius: 7px;
   margin: 2rem;
+  display: none;
 }
 .logInBtnContainer {
   border-radius: 7px;
@@ -111,7 +117,7 @@ section {
   height: 20rem;
   background-color: #f0f0f0;
   color: #252829;
-display: none;
+  display: none;
 }
 .profileImg {
   background-color: white;
@@ -169,6 +175,11 @@ display: none;
   font-family: "Roboto", sans-serif;
   font-size: 16px;
   line-height: 22px;
+}
+.tweetContent p{
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.1mm;
 }
 .currentDateTime {
   margin-left: auto;
@@ -245,7 +256,7 @@ display: none;
   font-weight: 500;
 }
 
-.logInBtnContainer h3{
+.logInBtnContainer h3 {
   font-size: 1.4rem;
 }
 .lodingTweets {
@@ -276,5 +287,4 @@ display: none;
 
 .logoutBtn:hover {
   background-color: #34a6ed;
- 
 }
