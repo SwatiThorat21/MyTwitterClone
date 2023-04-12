@@ -53,66 +53,75 @@ let lodingTweets = document.querySelector(".lodingTweets");
 let profileImg = document.getElementById("profileImg");
 let addTweetsContainer = document.querySelector(".addTweetsContainer");
 let header = document.querySelector("header");
+let myprofileDetails = document.getElementById("myprofileDetails");
+let myProfileContainer = document.getElementById("myProfileContainer");
+let logInBtnContainer = document.getElementById("logInBtnContainer");
+let container = document.getElementById("container");
+let logoutButton = document.getElementById("logoutButton");
 
-function onAddATweetBtn() {
+function getTweetDate() {
+  let currentDate = new Date();
+  let date = currentDate.getDate();
+  let month = currentDate.getMonth();
+  let allMonths = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  function pad(n) {
+    return n < 10 ? "0" + n : n;
+  }
+  const nth = function (d) {
+    if (d > 3 && d < 21) return "th";
+    switch (d % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
+  };
+  let monthName = allMonths[month];
+  let hours = currentDate.getHours() % 12 || 12;
+  let minutes = currentDate.getMinutes();
+  let amPm = currentDate.getHours() < 12 ? "AM" : "PM";
+  let tweetDate =
+    date +
+    nth(date) +
+    " " +
+    monthName +
+    ", " +
+    pad(hours) +
+    ":" +
+    pad(minutes) +
+    amPm;
+  return tweetDate;
+}
+
+function onAddTweetBtnClick() {
   if (!postTweetInput.value) {
     postTweetInput.classList.add("error_msgInput");
     document.querySelector(".error_msg").style.display = "block";
     return false;
   } else {
-    let currentDate = new Date();
-    let date = currentDate.getDate();
-    let month = currentDate.getMonth();
-    let allMonths = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    function pad(n) {
-      return n < 10 ? "0" + n : n;
-    }
-    const nth = function (d) {
-      if (d > 3 && d < 21) return "th";
-      switch (d % 10) {
-        case 1:
-          return "st";
-        case 2:
-          return "nd";
-        case 3:
-          return "rd";
-        default:
-          return "th";
-      }
-    };
-    let monthName = allMonths[month];
-    let hours = currentDate.getHours() % 12 || 12;
-    let minutes = currentDate.getMinutes();
-    let amPm = currentDate.getHours() < 12 ? "AM" : "PM";
-    let tweetDate =
-      date +
-      nth(date) +
-      " " +
-      monthName +
-      ", " +
-      pad(hours) +
-      ":" +
-      pad(minutes) +
-      amPm;
     const user = auth.currentUser;
     let postTweets = ref(db, "tweets");
     let newTweets = push(postTweets);
     set(newTweets, {
       content: postTweetInput.value,
-      date: tweetDate,
+      date: getTweetDate(),
       userId: user.uid,
       userName: user.displayName,
       userPhotoURL: user.photoURL,
@@ -126,19 +135,9 @@ function onAddATweetBtn() {
       });
   }
 }
-addTweet.addEventListener("click", onAddATweetBtn);
 
-function fetchTweets() {
-  const db = getDatabase();
-  const tweetsRef = ref(db, "tweets");
-  onChildAdded(tweetsRef, (data) => {
-    postTweetInput.addEventListener("focus", () => {
-      document.querySelector(".error_msg").style.display = "none";
-    });
-    postTweetInput.classList.remove("error_msgInput");
-    lodingTweets.style.display = "none";
-
-    let tweetHTML = `
+function getHTMLforTweet(data) {
+  let tweetHTML = `
         <div class="tweet">
         <img src="${data.val().userPhotoURL}" class="profileImgTweet"></img>
         <div class="tweetContent">
@@ -147,12 +146,64 @@ function fetchTweets() {
         </div>
         <p class="currentDateTime">${data.val().date}</p>
         </div> `;
+  return tweetHTML;
+}
+function getHTMLforMyprofileDetails(user) {
+  let myprofileDetailsHTML = `
+  <div class="profile_bg"></div>
+  <div class="profileImgContain">
+  <img src="${user.photoURL}" class="profileImg"></img>
+  </div>
+  <h3>${user.displayName}</h3>
+  <p>${user.email}</p> `;
+  return myprofileDetailsHTML;
+}
+
+function getHTMLforprofileImg(user) {
+  let profileImgHTML = `<img src="${user.photoURL}" alt="" class="profileImgTweet"> `;
+  return profileImgHTML;
+}
+
+function fetchTweets() {
+  const db = getDatabase();
+  const tweetsRef = ref(db, "tweets");
+  onChildAdded(tweetsRef, (data) => {
+    postTweetInput.addEventListener("focus", () => {
+      document.querySelector(".error_msg").style.display = "none";
+      postTweetInput.classList.remove("error_msgInput");
+    });
+    postTweetInput.classList.remove("error_msgInput");
+    lodingTweets.style.display = "none";
     postTweetInput.value = "";
-    tweetsContainer.insertAdjacentHTML("afterbegin", tweetHTML);
+    tweetsContainer.insertAdjacentHTML("afterbegin", getHTMLforTweet(data));
   });
 }
 
-loginBtn.addEventListener("click", (e) => {
+function updateUserDetails() {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      addTweetsContainer.style.display = "block";
+      header.style.display = "flex";
+      container.classList.add("containerBg");
+      container.classList.remove("containerWithBgImage");
+      myProfileContainer.style.display = "block";
+      logInBtnContainer.style.display = "none";
+      fetchTweets();
+      myprofileDetails.innerHTML = getHTMLforMyprofileDetails(user);
+      profileImg.innerHTML = getHTMLforprofileImg(user);
+    } else {
+      myProfileContainer.style.display = "none";
+      logInBtnContainer.style.display = "flex";
+      tweetsContainer.style.display = "none";
+      container.classList.add("containerWithBgImage");
+      container.classList.remove("containerBg");
+    }
+  });
+}
+
+updateUserDetails();
+
+function onLoginBtnClick() {
   signInWithRedirect(auth, provider);
   getRedirectResult(auth)
     .then((result) => {
@@ -166,50 +217,9 @@ loginBtn.addEventListener("click", (e) => {
       const email = error.customData.email;
       const credential = GoogleAuthProvider.credentialFromError(error);
     });
-});
-
-let myprofileDetails = document.getElementById("myprofileDetails");
-let myProfileContainer = document.getElementById("myProfileContainer");
-let logInBtnContainer = document.getElementById("logInBtnContainer");
-let container = document.getElementById("container");
-
-function updateUserDetails() {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      addTweetsContainer.style.display = "block";
-      header.style.display = "flex";
-      fetchTweets();
-      container.classList.add("containerBg");
-      container.classList.remove("containerWithBgImage");
-      myProfileContainer.style.display = "block";
-      logInBtnContainer.style.display = "none";
-      myprofileDetails.innerHTML = `
-      <div class="profile_bg"></div>
-      <div class="profileImgContain">
-      <img src="${user.photoURL}" class="profileImg"></img>
-      </div>
-      <h3>${user.displayName}</h3>
-      <p>${user.email}</p> `;
-
-      let profileImgHTML = `<img src="${user.photoURL}" alt="" class="profileImgTweet"> `;
-      profileImg.innerHTML = profileImgHTML;
-
-    } else {
-      myProfileContainer.style.display = "none";
-      logInBtnContainer.style.display = "flex";
-      tweetsContainer.style.display = "none";
-      container.classList.add("containerWithBgImage");
-      container.classList.remove("containerBg");
-    }
-  });
 }
 
-updateUserDetails();
-
-let logoutButton = document.getElementById("logoutButton");
-
-logoutButton.addEventListener("click", function () {
-  console.log("clicked");
+function onLogoutBtnClick() {
   signOut(auth)
     .then(() => {
       addTweetsContainer.style.display = "none";
@@ -218,4 +228,7 @@ logoutButton.addEventListener("click", function () {
     .catch((error) => {
       alert("An error happened.");
     });
-});
+}
+addTweet.addEventListener("click", onAddTweetBtnClick);
+loginBtn.addEventListener("click", onLoginBtnClick);
+logoutButton.addEventListener("click", onLogoutBtnClick);
