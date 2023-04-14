@@ -149,6 +149,12 @@ function getHTMLforTweet(data) {
   return tweetHTML;
 }
 function getHTMLforMyprofileDetails(user) {
+  const db = getDatabase();
+  const userData = ref(db, "users/" + user.uid);
+   onValue(starCountRef, (snapshot) => {
+    const data = snapshot.val();
+    updateStarCount(postElement, data);
+  });
   let myprofileDetailsHTML = `
   <div class="profile_bg"></div>
   <div class="profileImgContain">
@@ -182,6 +188,19 @@ function fetchTweets() {
 function updateUserDetails() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
+      let db = getDatabase();
+      set(ref(db, "users/" + user.uid), {
+        userId: user.uid,
+        userName: user.displayName,
+        userPhotoURL: user.photoURL,
+        userEmail: user.email,
+      })
+        .then(() => {
+          alert("user data saved sucessfully");
+        })
+        .catch((error) => {
+          alert("error happned");
+        });
       addTweetsContainer.style.display = "block";
       header.style.display = "flex";
       container.classList.add("containerBg");
