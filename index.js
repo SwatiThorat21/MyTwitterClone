@@ -149,12 +149,7 @@ function getHTMLforTweet(data) {
   return tweetHTML;
 }
 function getHTMLforMyprofileDetails(user) {
-  const db = getDatabase();
-  const userData = ref(db, "users/" + user.uid);
-   onValue(starCountRef, (snapshot) => {
-    const data = snapshot.val();
-    updateStarCount(postElement, data);
-  });
+  
   let myprofileDetailsHTML = `
   <div class="profile_bg"></div>
   <div class="profileImgContain">
