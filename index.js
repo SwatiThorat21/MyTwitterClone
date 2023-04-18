@@ -32,7 +32,7 @@ import {
   push,
   onChildAdded,
   orderByChild,
-  query
+  query,
 } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js";
 
 import {
@@ -53,6 +53,7 @@ let loginBtn = document.getElementById("loginBtn");
 let lodingTweets = document.querySelector(".lodingTweets");
 let profileImg = document.getElementById("profileImg");
 let addTweetsContainer = document.querySelector(".addTweetsContainer");
+let tweetData = document.getElementById('tweetData');
 let header = document.querySelector("header");
 let myprofileDetails = document.getElementById("myprofileDetails");
 let myProfileContainer = document.getElementById("myProfileContainer");
@@ -61,7 +62,10 @@ let container = document.getElementById("container");
 let logoutButton = document.getElementById("logoutButton");
 
 function getTweetDate() {
-  let currentDate = new Date();
+  let getDate = new Date();
+  let timestamp = getDate.getTime();
+  let currentDate = new Date(timestamp);
+
   let date = currentDate.getDate();
   let month = currentDate.getMonth();
   let allMonths = [
@@ -124,7 +128,7 @@ function onAddTweetBtnClick() {
       content: postTweetInput.value,
       date: getTweetDate(),
       userId: user.uid,
-      })
+    })
       .then(() => {
         console.log("Data added sucessfully!");
       })
@@ -139,7 +143,7 @@ async function getHTMLforTweet(data) {
   const user = await get(child(dbref, "users/" + data.val().userId));
   if (user.exists()) {
     let tweetHTML = `
-        <div class="tweet">
+        <div class="tweet" id="tweetData">
         <img src="${user.val().userPhotoURL}" class="profileImgTweet"></img>
         <div class="tweetContent">
         <h3>${user.val().userName}</h3>
@@ -179,9 +183,10 @@ async function handleOnChildAdded(data) {
 }
 
 function fetchTweets() {
-  const db = getDatabase();
-  const tweetsRef = query(ref(db, "tweets"),orderByChild('date'));
-  onChildAdded(tweetsRef, handleOnChildAdded);
+    const db = getDatabase();
+    const tweetsRef = query(ref(db, "tweets/"), orderByChild("date"));
+    onChildAdded(tweetsRef, handleOnChildAdded);
+    lodingTweets.style.display = "none";
 }
 
 function updateUserDetails() {
