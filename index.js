@@ -31,7 +31,8 @@ import {
   child,
   push,
   onChildAdded,
-  orderByValue,
+  orderByChild,
+  query
 } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js";
 
 import {
@@ -123,12 +124,9 @@ function onAddTweetBtnClick() {
       content: postTweetInput.value,
       date: getTweetDate(),
       userId: user.uid,
-      userName: user.displayName,
-      userPhotoURL: user.photoURL,
-      userEmail: user.email,
-    })
+      })
       .then(() => {
-        alert("Data added sucessfully!");
+        console.log("Data added sucessfully!");
       })
       .catch((error) => {
         alert(error);
@@ -136,20 +134,25 @@ function onAddTweetBtnClick() {
   }
 }
 
-function getHTMLforTweet(data) {
-  let tweetHTML = `
+async function getHTMLforTweet(data) {
+  const dbref = ref(db);
+  const user = await get(child(dbref, "users/" + data.val().userId));
+  if (user.exists()) {
+    let tweetHTML = `
         <div class="tweet">
-        <img src="${data.val().userPhotoURL}" class="profileImgTweet"></img>
+        <img src="${user.val().userPhotoURL}" class="profileImgTweet"></img>
         <div class="tweetContent">
-        <h3>${data.val().userName}</h3>
+        <h3>${user.val().userName}</h3>
         <p>${data.val().content}</p>
         </div>
         <p class="currentDateTime">${data.val().date}</p>
         </div> `;
-  return tweetHTML;
+    return tweetHTML;
+  } else {
+    alert("No data found");
+  }
 }
 function getHTMLforMyprofileDetails(user) {
-  
   let myprofileDetailsHTML = `
   <div class="profile_bg"></div>
   <div class="profileImgContain">
@@ -164,20 +167,21 @@ function getHTMLforprofileImg(user) {
   let profileImgHTML = `<img src="${user.photoURL}" alt="" class="profileImgTweet"> `;
   return profileImgHTML;
 }
+async function handleOnChildAdded(data) {
+  postTweetInput.addEventListener("focus", () => {
+    document.querySelector(".error_msg").style.display = "none";
+    postTweetInput.classList.remove("error_msgInput");
+  });
+  postTweetInput.classList.remove("error_msgInput");
+  lodingTweets.style.display = "none";
+  postTweetInput.value = "";
+  tweetsContainer.insertAdjacentHTML("afterbegin", await getHTMLforTweet(data));
+}
 
 function fetchTweets() {
   const db = getDatabase();
-  const tweetsRef = ref(db, "tweets");
-  onChildAdded(tweetsRef, (data) => {
-    postTweetInput.addEventListener("focus", () => {
-      document.querySelector(".error_msg").style.display = "none";
-      postTweetInput.classList.remove("error_msgInput");
-    });
-    postTweetInput.classList.remove("error_msgInput");
-    lodingTweets.style.display = "none";
-    postTweetInput.value = "";
-    tweetsContainer.insertAdjacentHTML("afterbegin", getHTMLforTweet(data));
-  });
+  const tweetsRef = query(ref(db, "tweets"),orderByChild('date'));
+  onChildAdded(tweetsRef, handleOnChildAdded);
 }
 
 function updateUserDetails() {
@@ -191,7 +195,7 @@ function updateUserDetails() {
         userEmail: user.email,
       })
         .then(() => {
-          alert("user data saved sucessfully");
+          console.log("user data saved sucessfully");
         })
         .catch((error) => {
           alert("error happned");
