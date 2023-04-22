@@ -171,7 +171,7 @@ section {
 }
 .tweetContent {
   width: 29rem;
-  margin-left: 1rem;
+  margin: 0.35rem 0 0 1rem;
   /* color: #f5f5f5; */
   color: #252829;
   font-family: "Roboto", sans-serif;
@@ -223,11 +223,13 @@ section {
   justify-content: flex-end;
   margin-right: 3rem;
 }
-.tweetContent h3 {
+.tweetContent a {
   margin-top: 8px;
-  font-weight: 500;
+  font-weight: 550;
+  font-size: 19px;
+ 
 }
-.tweetContent h3:hover {
+.tweetContent a:hover {
   text-decoration: underline;
   text-decoration-color: #252829;
   text-decoration-thickness: 1px;

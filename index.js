@@ -149,7 +149,7 @@ async function getHTMLforTweet(data) {
         <div class="tweet" id="tweetData">
         <img src="${user.val().userPhotoURL}" class="profileImgTweet"></img>
         <div class="tweetContent">
-        <h3>${user.val().userName}</h3>
+        <a heref="user.html?user_id=${data.val().userId}">${user.val().userName}</a>
         <p>${data.val().content}</p>
         </div>
         <p class="currentDateTime">${tweetDate}</p>
