@@ -227,6 +227,12 @@ section {
   margin-top: 8px;
   font-weight: 500;
 }
+.tweetContent h3:hover {
+  text-decoration: underline;
+  text-decoration-color: #252829;
+  text-decoration-thickness: 1px;
+  cursor: pointer;
+}
 .googleLogo {
   display: block;
   width: 23px;

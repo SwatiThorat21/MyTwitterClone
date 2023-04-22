@@ -261,31 +261,31 @@ logoutButton.addEventListener("click", onLogoutBtnClick);
 
 searchInput.addEventListener("keydown", function (e) {
   if (e.code === "Enter") {
-    // searchTweetByContent(e);
+    searchTweetByContent(e);
     searchTweetByUsername(e);
   }
 });
 
-// function searchTweetByContent(e) {
-//   let searchInputText = e.target.value;
-//   if (searchInputText.length === 0) {
-//     return;
-//   }
-//   tweetsContainer.innerHTML = "";
-//   const db = getDatabase();
-//   const tweetsRef = query(
-//     ref(db, "tweets"),
-//     orderByChild("content"),
-//     startAt(searchInputText),
-//     endAt(searchInputText + "\uf8ff")
-//   );
-//   onChildAdded(tweetsRef, async function (data) {
-//     tweetsContainer.insertAdjacentHTML(
-//       "afterbegin",
-//       await getHTMLforTweet(data)
-//     );
-//   });
-// }
+function searchTweetByContent(e) {
+  let searchInputText = e.target.value;
+  if (searchInputText.length === 0) {
+    return;
+  }
+  tweetsContainer.innerHTML = "";
+  const db = getDatabase();
+  const tweetsRef = query(
+    ref(db, "tweets"),
+    orderByChild("content"),
+    startAt(searchInputText),
+    endAt(searchInputText + "\uf8ff")
+  );
+  onChildAdded(tweetsRef, async function (data) {
+    tweetsContainer.insertAdjacentHTML(
+      "afterbegin",
+      await getHTMLforTweet(data)
+    );
+  });
+}
 
 function searchTweetByUsername(e) {
   let searchInputText = e.target.value;
@@ -301,10 +301,18 @@ function searchTweetByUsername(e) {
     endAt(searchInputText + "\uf8ff")
   );
   onChildAdded(userRef, async function (data) {
-    console.log(data);
-    tweetsContainer.insertAdjacentHTML(
-      "afterbegin",
-      await getHTMLforTweet(data)
+    let userId = data.val().userId;
+    const tweetsRef = query(
+      ref(db, "tweets"),
+      orderByChild("userId"),
+      startAt(userId),
+      endAt(userId + "\uf8ff")
     );
+    onChildAdded(tweetsRef, async function (data) {
+      tweetsContainer.insertAdjacentHTML(
+        "afterbegin",
+        await getHTMLforTweet(data)
+      );
+    });
   });
 }
