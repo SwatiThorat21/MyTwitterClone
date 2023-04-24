@@ -223,17 +223,28 @@ section {
   justify-content: flex-end;
   margin-right: 3rem;
 }
-.tweetContent a {
+.tweetUserName a {
   margin-top: 8px;
   font-weight: 550;
   font-size: 19px;
- 
+  color: black;
+  text-decoration: none;
 }
-.tweetContent a:hover {
+.tweetUserName a:hover {
   text-decoration: underline;
   text-decoration-color: #252829;
   text-decoration-thickness: 1px;
   cursor: pointer;
+}
+.userName {
+  margin-top: 8px;
+  font-weight: 550;
+  font-size: 19px;
+  color: black;
+}
+
+.userName:hover {
+  text-decoration: none;
 }
 .googleLogo {
   display: block;

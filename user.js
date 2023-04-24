@@ -48,49 +48,14 @@ import {
 
 const db = getDatabase();
 
-let postTweetInput = document.getElementById("postTweetInput");
-let addTweet = document.getElementById("addTweet");
 let tweetsContainer = document.getElementById("tweetsContainer");
-let loginBtn = document.getElementById("loginBtn");
 let lodingTweets = document.querySelector(".lodingTweets");
 let profileImg = document.getElementById("profileImg");
 let addTweetsContainer = document.querySelector(".addTweetsContainer");
-let header = document.querySelector("header");
 let myprofileDetails = document.getElementById("myprofileDetails");
 let myProfileContainer = document.getElementById("myProfileContainer");
-let logInBtnContainer = document.getElementById("logInBtnContainer");
 let container = document.getElementById("container");
-let logoutButton = document.getElementById("logoutButton");
-let searchInput = document.getElementById("searchInput");
 
-function onAddTweetBtnClick() {
-  if (!postTweetInput.value) {
-    postTweetInput.classList.add("error_msgInput");
-    document.querySelector(".error_msg").style.display = "block";
-    return false;
-  } else {
-    const user = auth.currentUser;
-    let postTweets = ref(db, "tweets");
-    let newTweets = push(postTweets);
-    set(newTweets, {
-      content: postTweetInput.value,
-      date: getTimestamp(),
-      userId: user.uid,
-    })
-      .then(() => {
-        console.log("Data added sucessfully!");
-      })
-      .catch((error) => {
-        alert(error);
-      });
-  }
-}
-
-function getTimestamp() {
-  let getDate = new Date();
-  let timestamp = getDate.getTime();
-  return timestamp;
-}
 
 async function getHTMLforTweet(data) {
   const dbref = ref(db);
@@ -148,7 +113,7 @@ async function getHTMLforTweet(data) {
         <div class="tweet" id="tweetData">
         <img src="${user.val().userPhotoURL}" class="profileImgTweet"></img>
         <div class="tweetContent">
-        <a class="tweetUserName" href="user.html?user_id=${data.val().userId}">${user.val().userName}</a>
+        <a class="userName">${user.val().userName}</a>
         <p>${data.val().content}</p>
         </div>
         <p class="currentDateTime">${tweetDate}</p>
@@ -162,7 +127,7 @@ function getHTMLforMyprofileDetails(user) {
   let myprofileDetailsHTML = `
   <div class="profile_bg"></div>
   <div class="profileImgContain">
-  <img src="${user.photoURL}" class="profileImg"></img>
+  <img src="${user.photoURL}" class="profileImg" id="profileImg"></img>
   </div>
   <h3>${user.displayName}</h3>
   <p>${user.email}</p> `;
@@ -174,13 +139,7 @@ function getHTMLforprofileImg(user) {
   return profileImgHTML;
 }
 async function handleOnChildAdded(data) {
-  postTweetInput.addEventListener("focus", () => {
-    document.querySelector(".error_msg").style.display = "none";
-    postTweetInput.classList.remove("error_msgInput");
-  });
-  postTweetInput.classList.remove("error_msgInput");
   lodingTweets.style.display = "none";
-  postTweetInput.value = "";
   tweetsContainer.insertAdjacentHTML("afterbegin", await getHTMLforTweet(data));
 }
 
@@ -208,17 +167,14 @@ function updateUserDetails() {
           alert("error happned");
         });
       addTweetsContainer.style.display = "block";
-      header.style.display = "flex";
       container.classList.add("containerBg");
       container.classList.remove("containerWithBgImage");
       myProfileContainer.style.display = "block";
-      logInBtnContainer.style.display = "none";
       fetchTweets();
       myprofileDetails.innerHTML = getHTMLforMyprofileDetails(user);
       profileImg.innerHTML = getHTMLforprofileImg(user);
     } else {
       myProfileContainer.style.display = "none";
-      logInBtnContainer.style.display = "flex";
       tweetsContainer.style.display = "none";
       container.classList.add("containerWithBgImage");
       container.classList.remove("containerBg");
@@ -228,90 +184,5 @@ function updateUserDetails() {
 
 updateUserDetails();
 
-function onLoginBtnClick() {
-  signInWithRedirect(auth, provider);
-  getRedirectResult(auth)
-    .then((result) => {
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      const user = result.user;
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      const email = error.customData.email;
-      const credential = GoogleAuthProvider.credentialFromError(error);
-    });
-}
 
-function onLogoutBtnClick() {
-  signOut(auth)
-    .then(() => {
-      addTweetsContainer.style.display = "none";
-      header.style.display = "none";
-    })
-    .catch((error) => {
-      alert(error);
-    });
-}
-addTweet.addEventListener("click", onAddTweetBtnClick);
-loginBtn.addEventListener("click", onLoginBtnClick);
-logoutButton.addEventListener("click", onLogoutBtnClick);
 
-searchInput.addEventListener("keydown", function (e) {
-  if (e.code === "Enter") {
-    searchTweetByContent(e);
-    searchTweetByUsername(e);
-  }
-});
-
-function searchTweetByContent(e) {
-  let searchInputText = e.target.value;
-  if (searchInputText.length === 0) {
-    return;
-  }
-  tweetsContainer.innerHTML = "";
-  const db = getDatabase();
-  const tweetsRef = query(
-    ref(db, "tweets"),
-    orderByChild("content"),
-    startAt(searchInputText),
-    endAt(searchInputText + "\uf8ff")
-  );
-  onChildAdded(tweetsRef, async function (data) {
-    tweetsContainer.insertAdjacentHTML(
-      "afterbegin",
-      await getHTMLforTweet(data)
-    );
-  });
-}
-
-function searchTweetByUsername(e) {
-  let searchInputText = e.target.value;
-  if (searchInputText.length === 0) {
-    return;
-  }
-  tweetsContainer.innerHTML = "";
-  const db = getDatabase();
-  const userRef = query(
-    ref(db, "users"),
-    orderByChild("userName"),
-    startAt(searchInputText),
-    endAt(searchInputText + "\uf8ff")
-  );
-  onChildAdded(userRef, async function (data) {
-    let userId = data.val().userId;
-    const tweetsRef = query(
-      ref(db, "tweets"),
-      orderByChild("userId"),
-      startAt(userId),
-      endAt(userId + "\uf8ff")
-    );
-    onChildAdded(tweetsRef, async function (data) {
-      tweetsContainer.insertAdjacentHTML(
-        "afterbegin",
-        await getHTMLforTweet(data)
-      );
-    });
-  });
-}
