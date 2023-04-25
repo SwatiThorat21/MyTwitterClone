@@ -195,7 +195,7 @@ function updateUserDetails() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       let db = getDatabase();
-      set(ref(db, "users/" + user.uid), {
+      set(ref(db, "users" + user.uid), {
         userId: user.uid,
         userName: user.displayName,
         userPhotoURL: user.photoURL,

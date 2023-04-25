@@ -34,7 +34,7 @@ import {
   orderByChild,
   query,
   startAt,
-  endAt
+  endAt,
 } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js";
 
 import {
@@ -55,7 +55,12 @@ let addTweetsContainer = document.querySelector(".addTweetsContainer");
 let myprofileDetails = document.getElementById("myprofileDetails");
 let myProfileContainer = document.getElementById("myProfileContainer");
 let container = document.getElementById("container");
+let searchInput = document.getElementById("searchInput");
+let header = document.querySelector("header");
 
+var url_string = window.location;
+var newUrl = new URL(url_string);
+var userId = newUrl.searchParams.get("user_id");
 
 async function getHTMLforTweet(data) {
   const dbref = ref(db);
@@ -127,15 +132,15 @@ function getHTMLforMyprofileDetails(user) {
   let myprofileDetailsHTML = `
   <div class="profile_bg"></div>
   <div class="profileImgContain">
-  <img src="${user.photoURL}" class="profileImg" id="profileImg"></img>
+  <img src="${user.userPhotoURL}" class="profileImg" id="profileImg"></img>
   </div>
-  <h3>${user.displayName}</h3>
-  <p>${user.email}</p> `;
+  <h3>${user.userName}</h3>
+  <p>${user.userEmail}</p> `;
   return myprofileDetailsHTML;
 }
 
 function getHTMLforprofileImg(user) {
-  let profileImgHTML = `<img src="${user.photoURL}" alt="" class="profileImgTweet"> `;
+  let profileImgHTML = `<img src="${user.userPhotoURL}" alt="" class="profileImgTweet"> `;
   return profileImgHTML;
 }
 async function handleOnChildAdded(data) {
@@ -145,44 +150,57 @@ async function handleOnChildAdded(data) {
 
 function fetchTweets() {
   const db = getDatabase();
-  const tweetsRef = query(ref(db, "tweets/"), orderByChild("date"));
+  const tweetsRef = query(
+    ref(db, "tweets"),
+    orderByChild("userId"),
+    startAt(userId),
+    endAt(userId + "\uf8ff")
+  );
   onChildAdded(tweetsRef, handleOnChildAdded);
   lodingTweets.style.display = "none";
 }
 
-function updateUserDetails() {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      let db = getDatabase();
-      set(ref(db, "users/" + user.uid), {
-        userId: user.uid,
-        userName: user.displayName,
-        userPhotoURL: user.photoURL,
-        userEmail: user.email,
-      })
-        .then(() => {
-          console.log("user data saved sucessfully");
-        })
-        .catch((error) => {
-          alert("error happned");
-        });
+function getUserDetails() {
+  const dbRef = ref(getDatabase());
+  get(child(dbRef, `users/${userId}`)).then((snapshot) => {
+    if (snapshot.exists()) {
       addTweetsContainer.style.display = "block";
+      header.style.display = "flex";
       container.classList.add("containerBg");
       container.classList.remove("containerWithBgImage");
       myProfileContainer.style.display = "block";
       fetchTweets();
-      myprofileDetails.innerHTML = getHTMLforMyprofileDetails(user);
-      profileImg.innerHTML = getHTMLforprofileImg(user);
-    } else {
-      myProfileContainer.style.display = "none";
-      tweetsContainer.style.display = "none";
-      container.classList.add("containerWithBgImage");
-      container.classList.remove("containerBg");
+      myprofileDetails.innerHTML = getHTMLforMyprofileDetails(snapshot.val());
+      profileImg.innerHTML = getHTMLforprofileImg(snapshot.val());
     }
   });
 }
 
-updateUserDetails();
+getUserDetails();
 
+searchInput.addEventListener("keydown", function (e) {
+  if (e.code === "Enter") {
+    searchTweetByContent(e);
+  }
+});
 
-
+function searchTweetByContent(e) {
+  let searchInputText = e.target.value;
+  if (searchInputText.length === 0) {
+    return;
+  }
+  tweetsContainer.innerHTML = "";
+  const db = getDatabase();
+  const tweetsRef = query(
+    ref(db, "tweets"),
+    orderByChild("content"),
+    startAt(searchInputText),
+    endAt(searchInputText + "\uf8ff")
+  );
+  onChildAdded(tweetsRef, async function (data) {
+    tweetsContainer.insertAdjacentHTML(
+      "afterbegin",
+      await getHTMLforTweet(data)
+    );
+  });
+}
