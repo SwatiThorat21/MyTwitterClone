@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { searchTweetByContent, getHTMLforTweet} from "./search.js";
+import { searchTweetByContent, getHTMLforTweet } from "./search.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -48,7 +48,6 @@ const db = getDatabase();
 
 let tweetsContainer = document.getElementById("tweetsContainer");
 let lodingTweets = document.querySelector(".lodingTweets");
-let profileImg = document.getElementById("profileImg");
 let addTweetsContainer = document.querySelector(".addTweetsContainer");
 let myprofileDetails = document.getElementById("myprofileDetails");
 let myProfileContainer = document.getElementById("myProfileContainer");
@@ -71,10 +70,6 @@ function getHTMLforMyprofileDetails(user) {
   return myprofileDetailsHTML;
 }
 
-function getHTMLforprofileImg(user) {
-  let profileImgHTML = `<img src="${user.userPhotoURL}" alt="" class="profileImgTweet"> `;
-  return profileImgHTML;
-}
 async function handleOnChildAdded(data) {
   lodingTweets.style.display = "none";
   tweetsContainer.insertAdjacentHTML("afterbegin", await getHTMLforTweet(data));
@@ -103,7 +98,6 @@ function getUserDetails() {
       myProfileContainer.style.display = "block";
       fetchTweets();
       myprofileDetails.innerHTML = getHTMLforMyprofileDetails(snapshot.val());
-     
     }
   });
 }
@@ -115,5 +109,3 @@ searchInput.addEventListener("keydown", function (e) {
     searchTweetByContent(e);
   }
 });
-
-

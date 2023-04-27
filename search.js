@@ -145,7 +145,7 @@ export function searchTweetByUsername(e) {
   tweetsContainer.innerHTML = "";
   const db = getDatabase();
   const userRef = query(
-    ref(db, "users"),
+    ref(db, "users/"),
     orderByChild("userName"),
     startAt(searchInputText),
     endAt(searchInputText + "\uf8ff")

@@ -138,7 +138,7 @@ function updateUserDetails() {
           console.log("user data saved sucessfully");
         })
         .catch((error) => {
-          alert("error happned");
+          alert(error);
         });
       addTweetsContainer.style.display = "block";
       header.style.display = "flex";
