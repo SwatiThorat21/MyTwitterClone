@@ -7,11 +7,11 @@
 <ul>Serach tweet by user name or tweet content</ul>
 
 <h2>Deployed Link</h2>
-<b>swatithorat21.github.io/Twitter_Clone_FullStack/</b>
+<b><a href="swatithorat21.github.io/Twitter_Clone_FullStack">swatithorat21.github.io/Twitter_Clone_FullStack/</a></b>
 
 You can create your Firebase Project
 <h2>Create and configure your Firebase Project</h2>
-<li>Create a Firebase project using the Firebase Console.</li>
+<li>Create a Firebase project using the Firebase<a href="https://console.firebase.google.com/u/0/">Console.</li>
 <li>Visit the Storage section and enable storage by clicking the Getting Started button.</li>
 <li>Enable Google as a Sign in provider in Firebase Console > Authentication > Sign in Method tab.</li>
 <li>For realtime database install the SDK and initialize Firebase.</li>
