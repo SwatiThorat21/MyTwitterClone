@@ -4,7 +4,7 @@
 <li>Log in and log out using google authentication</li>
 <li>Can view tweets from all users with date and time of tweet posted</li>
 <li>Can view profile of all users</li>
-<li>Serach tweet by user name or tweet content</li>
+<li>Search tweet by user name or tweet content</li>
 
 <h2>Deployed Link</h2>
 <b><a href="swatithorat21.github.io/Twitter_Clone_FullStack">swatithorat21.github.io/Twitter_Clone_FullStack/</a></b>
