@@ -103,12 +103,12 @@ export async function getHTMLforTweet(data) {
       amPm;
     let tweetHTML = `
         <div class="tweet" id="tweetData">
-        <img src="${user.val().userPhotoURL}" class="profileImgTweet"></img>
-        <div class="tweetContent">
-        <a class="tweetUserName" href="user.html?user_id=${data.val().userId}">${user.val().userName}</a>
-        <p>${data.val().content}</p>
-        </div>
-        <p class="currentDateTime">${tweetDate}</p>
+              <a class="tweetUserName" href="user.html?user_id=${data.val().userId}"><img src="${user.val().userPhotoURL}" class="profileImgTweet"></img></a>
+              <a class="tweetUserName" href="user.html?user_id=${data.val().userId}">${user.val().userName}</a>
+              <p class="currentDateTime">${tweetDate}</p>
+              <div class="tweetContent">
+                  <p>${data.val().content}</p>
+             </div>
         </div> `;
     return tweetHTML;
   } else {
