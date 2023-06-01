@@ -1,5 +1,9 @@
 // Import the functions you need from the SDKs you need
-import { searchTweetByUsername, searchTweetByContent, getHTMLforTweet} from "./search.js";
+import {
+  searchTweetByUsername,
+  searchTweetByContent,
+  getHTMLforTweet,
+} from "./search.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -32,7 +36,7 @@ import {
   orderByChild,
   query,
   startAt,
-  endAt
+  endAt,
 } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js";
 
 import {
@@ -60,6 +64,7 @@ let logInBtnContainer = document.getElementById("logInBtnContainer");
 let container = document.getElementById("container");
 let logoutButton = document.getElementById("logoutButton");
 let searchInput = document.getElementById("searchInput");
+let user_header_profile = document.getElementById("user_header_profile");
 
 function onAddTweetBtnClick() {
   if (!postTweetInput.value) {
@@ -90,6 +95,14 @@ function getTimestamp() {
   return timestamp;
 }
 
+function getHTMLforUser_header_profile(user) {
+  let headerProfileDetailsHTML = `
+        <div class="header_profileImgContain">
+            <img src="${user.photoURL}" class="header_profileImg"></img>
+        </div>
+  `;
+  return headerProfileDetailsHTML;
+}
 
 function getHTMLforMyprofileDetails(user) {
   let myprofileDetailsHTML = `
@@ -149,6 +162,7 @@ function updateUserDetails() {
       fetchTweets();
       myprofileDetails.innerHTML = getHTMLforMyprofileDetails(user);
       profileImg.innerHTML = getHTMLforprofileImg(user);
+      user_header_profile.innerHTML = getHTMLforUser_header_profile(user);
     } else {
       myProfileContainer.style.display = "none";
       logInBtnContainer.style.display = "flex";
