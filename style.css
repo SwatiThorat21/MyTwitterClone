@@ -326,17 +326,16 @@ header a {
 .logoutBtn:hover {
   background-color: #34a6ed;
 }
-.user_header_profile{
+.user_header_profile {
   display: flex;
   align-items: center;
 }
-.header_profileImg{
+.header_profileImg {
   width: 2.5rem;
   height: 2.5rem;
   margin: auto;
   border-radius: 50%;
   cursor: pointer;
-
 }
 @media only screen and (max-width: 1200px) {
   header {
@@ -444,27 +443,96 @@ header a {
   textarea::placeholder {
     font-size: 12px;
   }
- }
+}
 
-@media only screen and (max-width: 768px){
-  header{
+@media only screen and (max-width: 768px) {
+  header {
     justify-content: space-between;
     align-items: center;
-    }
+  }
   .twitter_logo {
     font-size: 2.2rem;
   }
-  input{
+  input {
     padding: 0.3rem 4rem 0.3rem 1rem;
   }
   input::placeholder,
   textarea::placeholder {
     font-size: 12px;
   }
-  .myProfileContainer{
+  .myProfileContainer {
     display: none !important;
   }
-  .tweetBtn{
+  .tweetBtn {
     margin-right: 0.5rem;
   }
+}
+
+@media only screen and (max-width: 576px) {
+  header {
+    padding: 0.3rem 1.5rem;
+  }
+  .twitter_logo {
+    font-size: 1.7rem;
+  }
+  input {
+    padding: 0.3rem 2.5rem 0.3rem 1rem;
+    margin: 0;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    font-size: 10px;
+  }
+  .postATweet {
+    padding: 1rem 1rem;
+  }
+  .addTweetsContainer {
+    width: 28rem;
+  }
+  .postTweet textarea {
+    width: 15rem;
+    height: 1.2rem;
+  }
+  .postTweet {
+    margin-bottom: 0.7rem;
+  }
+  .addTweet {
+    padding: 0.5rem 0.6rem;
+    font-size: 10px;
+  }
+  .tweetUserName {
+    font-size: 13px;
+  }
+  .tweetContent p {
+    font-size: 13px;
+  }
+  .tweetContent {
+    margin-left: 2.3rem;
+  }
+ 
+}
+
+
+@media only screen and (max-width: 485px) {
+ 
+  .addTweetsContainer {
+    width: 24rem;
+  }
+  .postTweet textarea {
+    width: 11rem;
+    height: 1.1rem;
+  }
+  .postTweet {
+    margin-bottom: 0.5rem;
+  }
+  .tweetUserName {
+    font-size: 12px;
+  }
+  .tweetContent p {
+    font-size: 12px;
+  }
+  .tweetContent {
+    margin-left: 2rem;
+  }
+ 
 }
