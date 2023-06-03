@@ -327,7 +327,7 @@ header a {
   background-color: #34a6ed;
 }
 .user_header_profile {
-  display: flex;
+  display: none;
   align-items: center;
 }
 .header_profileImg {
@@ -460,6 +460,9 @@ header a {
   textarea::placeholder {
     font-size: 12px;
   }
+  .user_header_profile{
+    display: flex;
+  } 
   .myProfileContainer {
     display: none !important;
   }
