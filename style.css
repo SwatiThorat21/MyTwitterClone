@@ -375,6 +375,9 @@ header a {
   .postTweet {
     margin-bottom: 1.2rem;
   }
+  .logInBtnContainer {
+    margin-left: 0px;
+  }
 }
 
 @media only screen and (max-width: 1080px) {
@@ -460,14 +463,28 @@ header a {
   textarea::placeholder {
     font-size: 12px;
   }
-  .user_header_profile{
+  .user_header_profile {
     display: flex;
-  } 
+  }
   .myProfileContainer {
     display: none !important;
   }
   .tweetBtn {
     margin-right: 0.5rem;
+  }
+  .logInBtnContainer {
+    width: 23rem;
+    height: 15rem;
+  }
+  .logInBtnContainer h3 {
+    font-size: 1.2rem;
+  }
+  .logInBtnContainer p {
+    font-size: 15px;
+  }
+  .logInBtnContainer button{
+    padding: 12px 40px;
+    font-size: 0.9rem;
   }
 }
 
@@ -512,12 +529,23 @@ header a {
   .tweetContent {
     margin-left: 2.3rem;
   }
- 
+  .logInBtnContainer {
+    width: 18rem;
+    height: 13rem;
+  }
+  .logInBtnContainer h3 {
+    font-size: 1rem;
+  }
+  .logInBtnContainer p {
+    font-size: 12px;
+  }
+  .logInBtnContainer button{
+    padding: 10px 25px;
+    font-size: 0.8rem;
+  }
 }
 
-
 @media only screen and (max-width: 485px) {
- 
   .addTweetsContainer {
     width: 24rem;
   }
@@ -537,5 +565,4 @@ header a {
   .tweetContent {
     margin-left: 2rem;
   }
- 
 }
