@@ -7,7 +7,7 @@
 <li>Search tweet by user name or tweet content</li>
 
 <h2>Deployed Link</h2>
-<b><a href="swatithorat21.github.io/Twitter_Clone_FullStack">swatithorat21.github.io/Twitter_Clone_FullStack/</a></b>
+<b><a href="https://swatithorat21.github.io/Twitter_Clone_FullStack/">https://swatithorat21.github.io/Twitter_Clone_FullStack/</a></b>
 
 You can create your Firebase Project
 <h2>Create and configure your Firebase Project</h2>
