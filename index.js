@@ -176,20 +176,30 @@ function updateUserDetails() {
 updateUserDetails();
 
 function onLoginBtnClick() {
+  // Change the text to "Loading..."
+  loginBtn.innerHTML = '<span style="font-family: \'Roboto\', sans-serif;">Loading...</span>';
+
   signInWithRedirect(auth, provider);
   getRedirectResult(auth)
     .then((result) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
       const user = result.user;
+      
+      // Change the text back to "Log in with Google" after successful login
+      loginBtn.innerHTML = '<span style="font-family: \'Roboto\', sans-serif;">Log in with Google</span>';
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       const email = error.customData.email;
       const credential = GoogleAuthProvider.credentialFromError(error);
+
+      // Change the text back to "Log in with Google" if an error occurs during login
+      loginBtn.innerHTML = '<span style="font-family: \'Roboto\', sans-serif;">Log in with Google</span>';
     });
 }
+
 
 function onLogoutBtnClick() {
   signOut(auth)
